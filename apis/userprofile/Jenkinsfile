@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven '3.5.4'
+        node '10.12.0'
     }
 
     environment {
@@ -13,20 +13,15 @@ pipeline {
     }
 
     stages{
-        // stage('Code Test') {
-        //     steps {
-        //         dir("${env.SRC_DIR}") {
-        //             sh '''
-        //                 npm test
-        //             '''
-        //         }
-        //     }
-        //     post {
-        //         always {
-        //             junit "**/target/surefire-reports/*.xml"
-        //         }
-        //     }
-        // }
+        stage('Code Test') {
+            steps {
+                dir("${env.SRC_DIR}") {
+                    sh '''
+                        npm test
+                    '''
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -48,5 +43,6 @@ pipeline {
                 }
             }
         }
+
     }
 }
