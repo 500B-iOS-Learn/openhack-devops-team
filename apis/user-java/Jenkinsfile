@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME = 'UserJava'
+        SRC_DIR = 'apis/user-java'
+    }
+
+    stages{
+        stage('Build Docker Image') {
+            dir('${SRC_DIR}') {
+                steps {
+                    docker.build("UserJava:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
+                }
+            }
+        }
+    }
+}
