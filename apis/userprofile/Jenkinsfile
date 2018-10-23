@@ -14,19 +14,6 @@ pipeline {
 
     stages{
 
-        // stage('Build Docker Image for Test') {
-        //     agent {
-        //         docker { image 'maven:3-alpine' }
-        //     }
-        //     steps {
-        //         dir("${env.SRC_DIR}") {
-        //             script {
-        //                 docker.build("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}")
-        //             }
-        //         }
-        //     }
-        // }
-
         stage('Code Test') {
             steps {
                 dir("${env.SRC_DIR}") {
