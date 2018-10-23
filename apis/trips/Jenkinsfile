@@ -30,7 +30,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Upload Docker Image to ACR') {
             steps {
                 script {
