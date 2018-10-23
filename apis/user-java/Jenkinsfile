@@ -10,7 +10,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('${SRC_DIR}') {
-                    docker.build("UserJava:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
+                    script {
+                        docker.build("UserJava:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
+                    }
                 }
             }
         }
