@@ -14,6 +14,30 @@ pipeline {
 
     stages{
 
+        // stage('Build Docker Image for Test') {
+        //     agent {
+        //         docker { image 'maven:3-alpine' }
+        //     }
+        //     steps {
+        //         dir("${env.SRC_DIR}") {
+        //             script {
+        //                 docker.build("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}")
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Code Test') {
+            steps {
+                dir("${env.SRC_DIR}") {
+                    sh '''
+                        npm install
+                        npm test
+                    '''
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 dir("${env.SRC_DIR}") {
@@ -35,15 +59,5 @@ pipeline {
             }
         }
 
-        stage('Code Test') {
-            steps {
-                dir("${env.SRC_DIR}") {
-                    sh '''
-                        npm test
-                    '''
-                }
-            }
-        }
-        
     }
 }
