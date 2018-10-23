@@ -8,8 +8,8 @@ pipeline {
 
     stages{
         stage('Build Docker Image') {
-            dir('${SRC_DIR}') {
-                steps {
+            steps {
+                dir('${SRC_DIR}') {
                     docker.build("UserJava:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
                 }
             }
