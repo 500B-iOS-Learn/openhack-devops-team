@@ -10,7 +10,8 @@ RUN go get
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-FROM alpine:3.8 AS gorun
+FROM alpine:3.8 
+#AS gorun
 
 ENV SQL_USER="YourUserName" \
 SQL_PASSWORD="changeme" \
