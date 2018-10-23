@@ -4,7 +4,7 @@ pipeline {
     environment {
         APP_NAME = 'devopsoh/poi'
         ACR_HOST = 'openhacktce4acr.azurecr.io'
-        SRC_DIR = 'apis/poi'
+        SRC_DIR = 'apis/poi/web'
         IMG_TAG = "${env.BUILD_TAG}"
     }
 
