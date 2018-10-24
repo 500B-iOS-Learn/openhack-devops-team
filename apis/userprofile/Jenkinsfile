@@ -50,11 +50,11 @@ pipeline {
                 dir("${env.SRC_DIR}") {
                     sh '''
                         #get the acr repsotiory id to tag image with.
-                        ACR_ID=`az acr list -g $resourceGroupName --query "[].{acrLoginServer:loginServer}" --output json | jq .[].acrLoginServer | sed 's/\"//g'`
-                        echo "ACR ID: ${ACR_ID}"
-                        TAG=$ACR_ID"/devopsoh/${env.IMG_TAG}"
+                        #ACR_ID=`az acr list -g $resourceGroupName --query "[].{acrLoginServer:loginServer}" --output json | jq .[].acrLoginServer | sed 's/\"//g'`
+                        #echo "ACR ID: ${ACR_ID}"
+                        TAG="${env.ACR_HOST}/devopsoh/${env.IMG_TAG}"
                         echo "TAG: ${TAG}"
-                        installPath=$relativeSaveLocation"/openhack-devops-team/apis/userprofile/helm"
+                        installPath="apis/userprofile/helm"
                         echo -e "\nhelm install ... from: " $installPath
                         BASE_URI="http://${API_URL}"
                         echo "Base URI: $BASE_URI"
