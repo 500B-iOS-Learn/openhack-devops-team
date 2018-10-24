@@ -25,7 +25,7 @@ pipeline {
 					$DOWNLOADER https://dot.net/v1/dotnet-install.sh > "$INSTALL_DIR/dotnet-install.sh"
 					chmod +x "$INSTALL_DIR/dotnet-install.sh"
 					echo Installing the CLI requested version $CLI_VERSION. Please wait, installation may take a few minutes.
-					"$INSTALL_DIR/dotnet-install.sh" --install-dir "$INSTALL_DIR" -c Current
+					"$INSTALL_DIR/dotnet-install.sh" --install-dir "$INSTALL_DIR" -c Current -v latest
 					if [ $? -ne 0 ]
 					then
 						echo Download of $CLI_VERSION version of the CLI failed. Exiting now.
