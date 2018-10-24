@@ -6,7 +6,7 @@ pipeline {
         ACR_HOST = 'openhacktce4acr.azurecr.io'
         SRC_DIR = 'apis/poi'
         IMG_TAG = "${env.BUILD_TAG}"
-		INSTALL_DIR = "cli-tools"
+		INSTALL_DIR = "${env.WORKSPACE}/cli-tools"
     }
 
     stages{
