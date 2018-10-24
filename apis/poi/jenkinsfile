@@ -12,7 +12,7 @@ pipeline {
 		stage('Install DotNetCore') {
 			steps {
 				sh '''
-					#!/bin/bash -v
+					#!/bin/bash
 					INSTALLDIR="cli-tools"
 
 					DOWNLOADER=$(which curl)
@@ -41,6 +41,7 @@ pipeline {
 			steps {
 				dir("${env.SRC_DIR}/tests") {
 					sh '''
+						#!/bin/bash -v
 						$INSTALLDIR/dotnet test unittests/unittests.csproj
 					'''
 				}
