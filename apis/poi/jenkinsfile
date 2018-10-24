@@ -36,7 +36,7 @@ pipeline {
 					'''
 				}
 			}
-		}
+
 		stage('Unit Test') {
 			steps {
 				dir("${env.SRC_DIR}/tests") {
