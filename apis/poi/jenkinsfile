@@ -12,7 +12,7 @@ pipeline {
 		stage('Install DotNetCore') {
 			steps {
 				sh '''
-					#!/bin/bash
+					#!/bin/bash -v
 					INSTALLDIR="cli-tools"
 
 					DOWNLOADER=$(which curl)
