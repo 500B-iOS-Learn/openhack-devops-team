@@ -41,7 +41,7 @@ pipeline {
 				dir("${env.SRC_DIR}/tests") {
 					sh '''
 						#!/bin/bash -v
-						rm -f **/*.trx
+						rm -rf **/TestResults
 						$INSTALL_DIR/dotnet test UnitTests/UnitTests.csproj --logger:trx
 						# SDK version incorrect on scripted install $INSTALL_DIR/dotnet test IntegrationTests/IntegrationTests.csproj --logger:trx
 					'''
