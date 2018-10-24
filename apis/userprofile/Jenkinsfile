@@ -51,6 +51,7 @@ pipeline {
             steps {
                 dir("${env.SRC_DIR}") {
                     sh '''
+                        KUBECONFIG="/home/jenkins/kubeconfig"
                         IMAGE="${ACR_HOST}/${APP_NAME}"
                         TAG="${IMG_TAG}"
                         installPath="${WORKSPACE}/apis/userprofile/helm"
