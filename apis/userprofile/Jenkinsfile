@@ -49,18 +49,18 @@ pipeline {
             steps {
                 dir("${env.SRC_DIR}") {
                     sh '''
-                        TAG="${env.ACR_HOST}/devopsoh/${env.IMG_TAG}"
-                        echo "TAG: ${TAG}"
                         pwd
-                        #installPath="${WORKSPACE}/apis/userprofile/helm"
-                        #echo -e "\nhelm install ... from:  ${installPath}"
-                        BASE_URI="http://${API_URL}"
-                        echo "Base URI: ${BASE_URI}"
                     '''
                 }
             }
         }
-        
+                        //         TAG="${env.ACR_HOST}/devopsoh/${env.IMG_TAG}"
+                        // echo "TAG: ${TAG}"
+
+        // #installPath="${WORKSPACE}/apis/userprofile/helm"
+        //                 #echo -e "\nhelm install ... from:  ${installPath}"
+        //                 BASE_URI="http://${API_URL}"
+        //                 echo "Base URI: ${BASE_URI}"
 
     }
 }
