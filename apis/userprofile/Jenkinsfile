@@ -14,44 +14,44 @@ pipeline {
     }
 
     stages{
-        stage('Code Test') {
-            steps {
-                dir("${env.SRC_DIR}") {
-                    sh '''
-                        npm install
-                        npm test
-                    '''
-                }
-            }
-        }
+        // stage('Code Test') {
+        //     steps {
+        //         dir("${env.SRC_DIR}") {
+        //             sh '''
+        //                 npm install
+        //                 npm test
+        //             '''
+        //         }
+        //     }
+        // }
 
-        stage('Build Docker Image') {
-            steps {
-                dir("${env.SRC_DIR}") {
-                    script {
-                        docker.build("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}")
-                    }
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         dir("${env.SRC_DIR}") {
+        //             script {
+        //                 docker.build("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}")
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('Upload Docker Image to ACR') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: '162a5f2f-bc39-4c82-a67b-7b9eedb3afe4', url: "https://${env.ACR_HOST}") {
+        // stage('Upload Docker Image to ACR') {
+        //     steps {
+        //         script {
+        //             withDockerRegistry(credentialsId: '162a5f2f-bc39-4c82-a67b-7b9eedb3afe4', url: "https://${env.ACR_HOST}") {
                         
-                        docker.image("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}").push("${env.IMG_TAG}")
-                    }
-                }
-            }
-        }
+        //                 docker.image("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}").push("${env.IMG_TAG}")
+        //             }
+        //         }
+        //     }
+        // }
         stage('Helm Deploy') {
             steps {
                 dir("${env.SRC_DIR}") {
                     sh '''
                         TAG="${env.ACR_HOST}/devopsoh/${env.IMG_TAG}"
                         echo "TAG: ${TAG}"
-                        installPath="apis/userprofile/helm"
+                        installPath="${WORKSPACE}/apis/userprofile/helm"
                         echo -e "\nhelm install ... from:  ${installPath}"
                         BASE_URI="http://${API_URL}"
                         echo "Base URI: ${BASE_URI}"
