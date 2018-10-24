@@ -47,7 +47,7 @@ pipeline {
 			}
 			post {
 				always {
-					mstest testResultsFile:"**/*.trx", keepLongStdio: true, failOnError: true
+					step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
 				}
 			}
 		}
