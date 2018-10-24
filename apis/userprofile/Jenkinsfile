@@ -6,14 +6,15 @@ pipeline {
     }
 
     environment {
+        API_USER = 'api-user'
         APP_NAME = 'devopsoh/api-user'
         ACR_HOST = 'openhacktce4acr.azurecr.io'
         SRC_DIR = 'apis/userprofile'
         IMG_TAG = "${env.BUILD_TAG}"
+        API_URL = "akstraefikopenhacktce4.australiaeast.cloudapp.azure.com"
     }
 
     stages{
-
         stage('Code Test') {
             steps {
                 dir("${env.SRC_DIR}") {
@@ -42,6 +43,24 @@ pipeline {
                         
                         docker.image("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}").push("${env.IMG_TAG}")
                     }
+                }
+            }
+        }
+
+        stage('Helm Deploy') {
+            steps {
+                dir("${env.SRC_DIR}") {
+                    sh '''
+                        export KUBECONFIG="/home/jenkins/kubeconfig"
+                        IMAGE="${ACR_HOST}/${APP_NAME}"
+                        TAG="${IMG_TAG}"
+                        installPath="${WORKSPACE}/apis/userprofile/helm"
+                        BaseUri="http://${API_URL}"
+                        dnsUrl="${API_URL}"
+                        helm version
+                        kubectl get pods
+                        helm upgrade --install ${API_USER} $installPath --set repository.image=${IMAGE},repository.tag=$TAG,env.webServerBaseUri=${BaseUri},ingress.rules.endpoint.host=${dnsUrl}
+                    '''
                 }
             }
         }
