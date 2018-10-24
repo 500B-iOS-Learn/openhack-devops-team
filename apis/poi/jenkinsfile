@@ -41,8 +41,8 @@ pipeline {
 				dir("${env.SRC_DIR}/tests") {
 					sh '''
 						#!/bin/bash -v
-						$INSTALL_DIR/dotnet test UnitTests/UnitTests --logger:trx
-						$INSTALL_DIR/dotnet test UnitTests/IntegrationTests --logger:trx
+						$INSTALL_DIR/dotnet test UnitTests/UnitTests/UnitTests.csproj --logger:trx
+						$INSTALL_DIR/dotnet test UnitTests/IntegrationTests/IntegrationTests.csproj --logger:trx
 					'''
 				}
 			}
