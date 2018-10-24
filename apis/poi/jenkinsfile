@@ -44,7 +44,11 @@ pipeline {
 						$INSTALL_DIR/dotnet test UnitTests/UnitTests.csproj --logger:trx
 					'''
 				}
-
+			}
+			post {
+				always {
+					mstest testResultsFile:"**/*.trx", keepLongStdio: true, failOnError: true
+				}
 			}
 		}
 
