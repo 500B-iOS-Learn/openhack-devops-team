@@ -41,7 +41,7 @@ pipeline {
 				dir("${env.SRC_DIR}/tests") {
 					sh '''
 						#!/bin/bash -v
-						$INSTALL_DIR/dotnet test unittests/unittests.csproj
+						$INSTALL_DIR/dotnet test $SRC_DIR/tests/UnitTests/UnitTests.csproj
 					'''
 				}
 			}
