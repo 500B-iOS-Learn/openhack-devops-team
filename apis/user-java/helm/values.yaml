@@ -11,6 +11,7 @@ image:
   name: user-java
   label: user-java
   containerPort: 8080
+maxUnavailability: "0%"  
 service:
   externalPort: 80
 ingress:

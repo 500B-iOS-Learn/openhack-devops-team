@@ -12,6 +12,7 @@ image:
   containerPort: 80
 env:
   webServerBaseUri: 'http://localhost'
+maxUnavailability: "0%"  
 service:
   externalPort: 80
 ingress:
