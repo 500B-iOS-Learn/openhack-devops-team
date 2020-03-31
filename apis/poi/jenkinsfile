@@ -4,14 +4,59 @@ pipeline {
     environment {
         APP_NAME = 'devopsoh/api-poi'
         ACR_HOST = 'openhacktce4acr.azurecr.io'
-        SRC_DIR = 'apis/poi/web'
+        SRC_DIR = 'apis/poi'
         IMG_TAG = "${env.BUILD_TAG}"
+		INSTALL_DIR = "${env.WORKSPACE}/cli-tools"
     }
 
     stages{
+		stage('Install DotNetCore') {
+			steps {
+				sh '''
+					#!/bin/bash
+
+					DOWNLOADER=$(which curl)
+					if [ -d "$INSTALL_DIR" ]
+					then
+						rm -rf "$INSTALL_DIR"
+					fi
+					mkdir -p "$INSTALL_DIR"
+					echo Downloading the CLI installer.
+					$DOWNLOADER https://dot.net/v1/dotnet-install.sh > "$INSTALL_DIR/dotnet-install.sh"
+					chmod +x "$INSTALL_DIR/dotnet-install.sh"
+					echo Installing the CLI requested version $CLI_VERSION. Please wait, installation may take a few minutes.
+					"$INSTALL_DIR/dotnet-install.sh" --install-dir "$INSTALL_DIR" -c Current -v latest
+					if [ $? -ne 0 ]
+					then
+						echo Download of $CLI_VERSION version of the CLI failed. Exiting now.
+						exit 0
+					fi
+					echo The CLI has been installed.
+					'''
+				}
+			}
+
+		stage('Unit Test') {
+			steps {
+				dir("${env.SRC_DIR}/tests") {
+					sh '''
+						#!/bin/bash -v
+						rm -rf **/TestResults
+						$INSTALL_DIR/dotnet test UnitTests/UnitTests.csproj --logger:trx
+						# SDK version incorrect on scripted install $INSTALL_DIR/dotnet test IntegrationTests/IntegrationTests.csproj --logger:trx
+					'''
+				}
+			}
+			post {
+				always {
+					step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
+				}
+			}
+		}
+
         stage('Build Docker Image') {
             steps {
-                dir("${env.SRC_DIR}") {
+                dir("${env.SRC_DIR}/web") {
                     script {
                         docker.build("${env.ACR_HOST}/${env.APP_NAME}:${env.IMG_TAG}")
                     }
